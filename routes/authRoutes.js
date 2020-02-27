@@ -30,15 +30,24 @@ router.post("/register",(req,res)=>{
   if(errors.length > 0){
     res.render("register",{name,email,password,password2,errors});
   }else{
-    bcrypt.genSalt(10,(err,salt)=>{
-      bcrypt.hash(password,salt,(err,hash)=>{
-        const newUser = new User({
-          name,
-          email,
-          password : hash
-        });
-        newUser.save();
-      })
+    User.findOne({email:email},(err,foundUser)=>{
+      if(!err){
+        if(foundUser){
+          errors.push({msg:"Email already exist"})
+          res.render("register",{errors});
+        }else{
+          bcrypt.genSalt(10,(err,salt)=>{
+            bcrypt.hash(password,salt,(err,hash)=>{
+              const newUser = new User({
+                name,
+                email,
+                password : hash
+              });
+              newUser.save();
+            })
+          })
+        }
+      }
     })
   }
 
