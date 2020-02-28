@@ -43,7 +43,10 @@ router.post("/register",(req,res)=>{
                 email,
                 password : hash
               });
-              newUser.save();
+              newUser.save().then((newUser)=>{
+                req.flash("success_msg","Successfully registered");
+                res.redirect("/auth/login")
+              });
             })
           })
         }

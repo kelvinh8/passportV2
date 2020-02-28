@@ -1,6 +1,9 @@
 const express = require("express");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 const app = express();
 app.set("view engine","ejs");
@@ -8,6 +11,21 @@ app.set("view engine","ejs");
 app.use(express.static("public"));
 //grab data using req.body
 app.use(express.urlencoded({extended:true}));
+//using cookie cookieParser
+app.use(cookieParser());
+//using session
+app.use(session({
+  secret:"secret",
+  saveUninitialized:true,
+  resave:true
+}));
+//using flash
+app.use(flash());
+//Global variable
+app.use("/",(req,res,next)=>{
+  res.locals.success_msg = req.flash("success_msg");
+  next();
+});
 //localhost:3000/
 app.use("/",require("./routes/index"));
 //localhost:3000/auth/
