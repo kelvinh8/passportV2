@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const passportConfig = require("./config/passport")(passport);
 
 const app = express();
 app.set("view engine","ejs");
@@ -19,11 +21,15 @@ app.use(session({
   saveUninitialized:true,
   resave:true
 }));
+//initialize passport with session
+app.use(passport.initialize());
+app.use(passport.session());
 //using flash
 app.use(flash());
 //Global variable
 app.use("/",(req,res,next)=>{
   res.locals.success_msg = req.flash("success_msg");
+  res.locals.error = req.flash("error");
   next();
 });
 //localhost:3000/
