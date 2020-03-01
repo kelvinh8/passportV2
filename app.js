@@ -7,6 +7,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const passportConfig = require("./config/passport")(passport);
 const passportGoogle = require("./config/passportGoogle")(passport);
+const passportGithub = require("./config/passportGitHub")(passport);
 const User = require("./models/User");
 
 const app = express();

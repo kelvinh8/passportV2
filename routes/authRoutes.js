@@ -80,10 +80,16 @@ router.get("/logout",(req,res,next)=>{
 })
 //Login with google handler
 router.get("/google",passport.authenticate("google",{scope:["profile"]}));
-//gogole redirect handler
+//google redirect handler
 router.get("/google/redirect",passport.authenticate("google",
 {failureRedirect:"auth/login",
 successRedirect:"/dashboard"}
 ));
+//GitHub handler
+router.get("/github",passport.authenticate("github"));
+router.get("/github/redirect",passport.authenticate("github",{
+  successRedirect:"/dashboard",
+  failureRedirect:"/auth/login"
+}));
 
 module.exports = router;

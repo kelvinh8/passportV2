@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
     type:Date,
     default:Date.now
   },
-  googleId:String
+  googleId:String,
+  githubId:String
 })
 const User = new mongoose.model("user",userSchema);
 
