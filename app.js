@@ -6,6 +6,8 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const passportConfig = require("./config/passport")(passport);
+const passportGoogle = require("./config/passportGoogle")(passport);
+const User = require("./models/User");
 
 const app = express();
 app.set("view engine","ejs");
@@ -24,6 +26,16 @@ app.use(session({
 //initialize passport with session
 app.use(passport.initialize());
 app.use(passport.session());
+//serialize user into session
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 //using flash
 app.use(flash());
 //Global variable

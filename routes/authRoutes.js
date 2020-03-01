@@ -4,11 +4,19 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 //Register page
 router.get("/register",(req,res)=>{
-  res.render("register")
+  if(!req.isAuthenticated()){
+      res.render("register")
+  }else{
+    res.redirect("/dashboard");
+  }
 })
 //Login page
 router.get("/login",(req,res)=>{
-  res.render("login")
+  if(!req.isAuthenticated()){
+      res.render("login");
+  }else{
+    res.redirect("/dashboard");
+  }
 })
 //Register handler
 router.post("/register",(req,res)=>{
@@ -70,5 +78,12 @@ router.get("/logout",(req,res,next)=>{
   req.flash("success_msg","Successfully logged out.")
   res.redirect("/auth/login");
 })
+//Login with google handler
+router.get("/google",passport.authenticate("google",{scope:["profile"]}));
+//gogole redirect handler
+router.get("/google/redirect",passport.authenticate("google",
+{failureRedirect:"auth/login",
+successRedirect:"/dashboard"}
+));
 
 module.exports = router;

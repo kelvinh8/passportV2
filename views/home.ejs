@@ -12,11 +12,19 @@
   <div class="col-md-6 m-auto">
     <div class="card card-body text-center">
       <h1><Img src="../css/nodejs-logo-1.png" /></h1>
-      <p>Create an account or login</p>
-      <a href="/auth/register" class="btn btn-primary btn-block mb-2"
-        >Register</a
-      >
-      <a href="/auth/login" class="btn btn-secondary btn-block">Login</a>
+
+      <%if(!auth){%>
+        <p>Create an account or login</p>
+        <a href="/auth/register" class="btn btn-primary btn-block mb-2"
+          >Register</a>
+          <a href="/auth/login" class="btn btn-success btn-block mb-2">Login</a>
+          <a href="/auth/login" class="btn btn-secondary btn-block">Dashboard</a>
+      <%}%>
+      <%if(auth){%>
+        <p>You are authenticated!</p>
+        <a href="/auth/login" class="btn btn-secondary btn-block">Dashboard</a>
+      <%}%>
+
     </div>
   </div>
 </div>
